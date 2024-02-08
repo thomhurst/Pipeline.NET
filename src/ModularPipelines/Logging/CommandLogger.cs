@@ -38,57 +38,39 @@ internal class CommandLogger : ICommandLogger
         {
             if (options.InternalDryRun && ShouldLogInput(optionsCommandLogging))
             {
-                Logger.LogInformation("---Executing Command---\r\n\t{Input}", inputToLog);
+                Logger.LogInformation("Executing Command: {Input}", inputToLog);
                 Logger.LogInformation("---Dry-Run Command - No Output---");
                 return;
             }
 
             if (ShouldLogInput(optionsCommandLogging))
             {
-                Logger.LogInformation("""
-                                      ---Executing Command---
-                                      {Input}
-                                      """,
+                Logger.LogInformation("Executing Command: {Input}",
                     _secretObfuscator.Obfuscate(inputToLog, options));
             }
             else
             {
-                Logger.LogInformation("""
-                                      ---Executing Command---
-                                      ********
-                                      """);
+                Logger.LogInformation("Executing Command: ********");
             }
 
             if (optionsCommandLogging.HasFlag(CommandLogging.ExitCode))
             {
-                Logger.LogInformation("""
-                                      ---Exit Code----
-                                      {ExitCode}
-                                      """, exitCode);
+                Logger.LogInformation("Exit Code: {ExitCode}", exitCode);
             }
 
             if (optionsCommandLogging.HasFlag(CommandLogging.Duration))
             {
-                Logger.LogInformation("""
-                                      ---Duration---
-                                      {Duration}
-                                      """, runTime?.ToDisplayString());
+                Logger.LogInformation("Duration: {Duration}", runTime?.ToDisplayString());
             }
 
             if (ShouldLogOutput(optionsCommandLogging))
             {
-                Logger.LogInformation("""
-                                      ---Command Result---
-                                      {Output}
-                                      """, _secretObfuscator.Obfuscate(standardOutput, options));
+                Logger.LogInformation("Command Result: {Output}", _secretObfuscator.Obfuscate(standardOutput, options));
             }
 
             if (ShouldLogError(optionsCommandLogging, exitCode))
             {
-                Logger.LogInformation("""
-                                      ---Command Error---
-                                      {Error}
-                                      """, _secretObfuscator.Obfuscate(standardError, options));
+                Logger.LogInformation("Command Error: {Error}", _secretObfuscator.Obfuscate(standardError, options));
             }
         }
     }
