@@ -15,7 +15,7 @@ namespace ModularPipelines.TestHelpers;
 [Parallelizable(ParallelScope.All)]
 public abstract class TestBase
 {
-    private readonly List<IPipelineHost> _hosts = new();
+    private readonly List<IPipelineHost> _hosts = [];
 
     public async Task<T> RunModule<T>()
         where T : ModuleBase

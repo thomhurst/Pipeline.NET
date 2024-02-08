@@ -22,7 +22,20 @@ public class CommandExtensionsTests
     public void ToToolOptions_MultipleArgs()
     {
         var commandLineOptions = new CommandLineOptions()
-            .ToCommandLineToolOptions("mytool", new[] {"arg1", "arg2"});
+            .ToCommandLineToolOptions("mytool", ["arg1", "arg2"]);
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(commandLineOptions.Tool, Is.EqualTo("mytool"));
+            Assert.That(commandLineOptions.Arguments, Is.EquivalentTo(new[] { "arg1", "arg2" }));
+        });
+    }
+    
+    [Test]
+    public void ToToolOptions_MultipleArgs_IEnumerable()
+    {
+        var commandLineOptions = new CommandLineOptions()
+            .ToCommandLineToolOptions("mytool", new HashSet<string>(["arg1", "arg2"]));
         
         Assert.Multiple(() =>
         {
@@ -35,8 +48,8 @@ public class CommandExtensionsTests
     public void WithArguments_AddsToExisting()
     {
         var commandLineOptions = new CommandLineOptions()
-            .ToCommandLineToolOptions("mytool", new[] {"arg1", "arg2"})
-            .WithArguments(new[] {"arg3", "arg4", "arg5"});
+            .ToCommandLineToolOptions("mytool", ["arg1", "arg2"])
+            .WithArguments(["arg3", "arg4", "arg5"]);
         
         Assert.Multiple(() =>
         {

@@ -30,7 +30,7 @@ public class XmlTests : TestBase
         {
             Foo = "Bar!",
             Hello = "World!",
-            Items = new[] { "One", "Two", "3" },
+            Items = ["One", "Two", "3"],
         });
 
         Assert.That(result.Trim(), Is.EqualTo("""
